@@ -7,50 +7,44 @@ public class Rotator
         var numberOfRings = array2d.Length / 2;
         for (var ringCount = 0; ringCount < numberOfRings; ringCount++)
         {
-            var curTop = 0;
-            var curBottom = 0;
-            var lastIndex = ringCount + 1;
+            var lastIndexInRing = ringCount + 1;
 
-            for (int i = 0; i < array2d.Length - 1; i++)
+            // Copy these as they will be overwritten
+            var topLeft = array2d[ringCount][ringCount];
+            var topRight = array2d[ringCount][^lastIndexInRing];
+            var bottomLeft = array2d[^lastIndexInRing][ringCount];
+            var bottomRight = array2d[^lastIndexInRing][^lastIndexInRing];
+
+            for (int i = 0; i < array2d.Length / 2; i++)
             {
-                var reverseLength = (array2d.Length - 1) - i;
+                var incrementingIndex = ringCount + i;
+                var incrementingNegativeIndex = lastIndexInRing + i;
 
-                // top
-                curTop = array2d[ringCount][reverseLength];
-                var topLeft = array2d[ringCount][reverseLength - 1];
-                array2d[ringCount][reverseLength - 1] = curTop;
-                array2d[ringCount][reverseLength] = topLeft;
+                // top, replaces rightmost with one on left
+                array2d[ringCount][^incrementingNegativeIndex] = array2d[ringCount][^(incrementingNegativeIndex + 1)];
 
-                // bottom
-                curBottom = array2d[^lastIndex][i];
-                var bottomRight = array2d[^lastIndex][i + 1];
-                array2d[^lastIndex][i + 1] = curBottom;
-                array2d[^lastIndex][i] = bottomRight;
+                // bottom, replaces leftmost with one on right
+                array2d[^lastIndexInRing][incrementingIndex] = array2d[^lastIndexInRing][incrementingIndex + 1];
 
-                // // TODO skip one index as we don't care about it for the first iteration
-                // // TODO this might not work on non 3x3
-                if(i == 0)
-                    continue;
+                // left, replaces topmost with one from below
+                array2d[incrementingIndex][ringCount] = array2d[incrementingIndex + 1][ringCount];
 
-                // left
-                var curLeft = array2d[reverseLength][ringCount];
-                var nextLeft = array2d[reverseLength - 1][ringCount];
-                array2d[reverseLength - 1][ringCount] = curLeft;
-                array2d[reverseLength][ringCount] = nextLeft;
-
-                // right
-                var curRight = array2d[i][^lastIndex];
-                var nextRight = array2d[i + 1][^lastIndex];
-                array2d[i + 1][^lastIndex] = curRight;
-                array2d[i][^lastIndex] = nextRight;
+                // right, replaces bottommost with one from above
+                array2d[^incrementingNegativeIndex][^lastIndexInRing] = array2d[^(incrementingNegativeIndex + 1)][^lastIndexInRing];
             }
 
+            // Add missing four back in
             // One from top right
-            array2d[ringCount + 1][^lastIndex] = curTop;
+            array2d[ringCount + 1][^lastIndexInRing] = topRight;
 
             // One from bottom left
-            // array2d[^2][0] = curBottom;
-            array2d[^(lastIndex+1)][ringCount] = curBottom;
+            array2d[^lastIndexInRing][^(lastIndexInRing + 1)] = bottomRight;
+
+            // One from left bottom
+            array2d[^(lastIndexInRing + 1)][ringCount] = bottomLeft;
+
+            // One from top left
+            array2d[ringCount][ringCount + 1] = topLeft;
         }
 
         return array2d;
