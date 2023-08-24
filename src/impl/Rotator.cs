@@ -20,17 +20,23 @@ public class Rotator
                 var incrementingIndex = ringCount + i;
                 var incrementingNegativeIndex = lastIndexInRing + i;
 
-                // top, replaces rightmost with one on left
-                array2d[ringCount][^incrementingNegativeIndex] = array2d[ringCount][^(incrementingNegativeIndex + 1)];
-
-                // bottom, replaces leftmost with one on right
-                array2d[^lastIndexInRing][incrementingIndex] = array2d[^lastIndexInRing][incrementingIndex + 1];
-
                 // left, replaces topmost with one from below
                 array2d[incrementingIndex][ringCount] = array2d[incrementingIndex + 1][ringCount];
 
                 // right, replaces bottommost with one from above
                 array2d[^incrementingNegativeIndex][^lastIndexInRing] = array2d[^(incrementingNegativeIndex + 1)][^lastIndexInRing];
+            }
+
+            for (int i = 0; i < array2d[0].Length / 2; i++)
+            {
+                var incrementingIndex = ringCount + i;
+                var incrementingNegativeIndex = lastIndexInRing + i;
+
+                // top, replaces rightmost with one on left
+                array2d[ringCount][^incrementingNegativeIndex] = array2d[ringCount][^(incrementingNegativeIndex + 1)];
+
+                // bottom, replaces leftmost with one on right
+                array2d[^lastIndexInRing][incrementingIndex] = array2d[^lastIndexInRing][incrementingIndex + 1];
             }
 
             // Add missing four back in

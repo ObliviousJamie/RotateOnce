@@ -5,6 +5,56 @@ namespace test;
 public class RotatorTests
 {
     [Fact]
+    public void Rotate2x3()
+    {
+        var array2d = new int[][]
+        {
+            new int[] {1, 2, 3},
+            new int[] {4, 5, 6},
+        };
+
+        var expected = new int[][]
+        {
+            new int[] {4, 1, 2},
+            new int[] {5, 6, 3},
+        };
+
+        var sut = new Rotator();
+        var actual = sut.Rotate(array2d);
+
+        for (int i = 0; i < actual.Length; i++)
+        {
+            Assert.Equivalent(expected[i], actual[i]);
+        }
+    }
+
+    [Fact]
+    public void Rotate3x2()
+    {
+        var array2d = new int[][]
+        {
+            new int[] {1, 2 },
+            new int[] {4, 5 },
+            new int[] {7, 8 }
+        };
+
+        var expected = new int[][]
+        {
+            new int[] { 4, 1 },
+            new int[] { 7, 2 },
+            new int[] { 8, 5 }
+        };
+
+        var sut = new Rotator();
+        var actual = sut.Rotate(array2d);
+
+        for (int i = 0; i < actual.Length; i++)
+        {
+            Assert.Equivalent(expected[i], actual[i]);
+        }
+    }
+
+    [Fact]
     public void Rotate3x3()
     {
         var array2d = new int[][]
@@ -47,6 +97,30 @@ public class RotatorTests
             new int[] {9, 10, 6, 4 },
             new int[] {13, 11, 7, 8},
             new int[] {14, 15, 16, 12}
+        };
+
+        var sut = new Rotator();
+        var actual = sut.Rotate(array2d);
+
+        for (int i = 0; i < actual.Length; i++)
+        {
+            Assert.Equivalent(expected[i], actual[i]);
+        }
+    }
+
+    [Fact]
+    public void Rotate4x2()
+    {
+        var array2d = new int[][]
+        {
+            new int[] {1, 2, 3, 4},
+            new int[] {5, 6, 7, 8},
+        };
+
+        var expected = new int[][]
+        {
+            new int[] { 5, 1, 2, 3 },
+            new int[] { 6, 7, 8, 4},
         };
 
         var sut = new Rotator();
